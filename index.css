@@ -1,0 +1,21 @@
+*{
+    padding : 0;
+    margin : 0;
+}
+#mazeBox{
+    margin: 50px auto;
+    width: 800px;
+    height: 600px;
+    background-color: #eee;
+    border: 1px solid;
+}
+.false{
+    background-color: #E43937;
+}
+.true{
+    background-color: #2155CF;
+}
+.step{
+    display: inline-block;
+    box-sizing: border-box;
+}
