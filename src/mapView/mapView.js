@@ -61,8 +61,7 @@ class mapView {
             this.startEndMoveFlag = false;
         });
         this.mapElement.addEventListener( 'click' , e => {
-            /* 当前格子元素设置为障碍物 */
-            e.target.flag = true;
+            e.target.flag = !e.target.flag;
         });
         /* SVG 双击事件取消所有障碍物 */
         this.mapElement.addEventListener( 'dblclick' , e => {
@@ -145,13 +144,25 @@ class mapView {
                     }
                 }
             },
-            'fillColor':{
+            'fillSearchScope':{
                 set( bool ){
                     if( this.startEnd === 'start' || this.startEnd === 'end' ){
                         return
                     }
                     if( bool === true ){
                         this.setAttribute( 'fill' , '#98fb98' );
+                    }else{
+                        this.setAttribute( 'fill' , '#fff' );
+                    }
+                }
+            },
+            'fillColor':{
+                set( bool ){
+                    if( this.startEnd === 'start' || this.startEnd === 'end' ){
+                        return
+                    }
+                    if( bool === true ){
+                        this.setAttribute( 'fill' , '#e5e5e5' );
                     }else{
                         this.setAttribute( 'fill' , '#fff' );
                     }
@@ -222,6 +233,12 @@ class mapView {
         if( target.startEnd === 'start' || target.startEnd === 'end' ){
             return 
         }
+        // if( target.xx < 0 || target.xx > this._mapData[0].length - 1 ){
+        //     return 
+        // }
+        // if( target.yy < 0 || target.yy > this._mapData.length - 1 ){
+        //     return 
+        // }
         /* 同当前元素 不断替换起始点元素 并清空历史起始点元素的状态 */
         let type = this.startEndElement.startEnd;
         this.startEndElement.startEnd = false;

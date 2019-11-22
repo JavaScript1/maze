@@ -27,13 +27,13 @@ class A extends mapView{
     getSurroundGrid( currentGrid ){
         let [x , y] = [ currentGrid.indexX , currentGrid.indexY ];
         return [
-            // {indexX: x - 1 , indexY: y - 1},
+            {indexX: x - 1 , indexY: y - 1},
             {indexX: x     , indexY: y - 1},
-            // {indexX: x + 1 , indexY: y - 1},
+            {indexX: x + 1 , indexY: y - 1},
             {indexX: x + 1 , indexY: y    },
-            // {indexX: x + 1 , indexY: y + 1},
+            {indexX: x + 1 , indexY: y + 1},
             {indexX: x     , indexY: y + 1},
-            // {indexX: x - 1 , indexY: y + 1},
+            {indexX: x - 1 , indexY: y + 1},
             {indexX: x - 1 , indexY: y    }
         ]
     }
@@ -54,7 +54,7 @@ class A extends mapView{
         let [startGrid , endGrid] = [this.mapView.startGrid , this.mapView.endGrid];
         /* 将开始点压入打开列表 */
         this.openList.push({indexX: startGrid.indexX , indexY: startGrid.indexY , G: 0});
-        do{
+        let searchDarw = setInterval( () => {
             /* 获取当前格子 */
             let currentGrid = this.openList.shift();
             /* 把当前格子压入到关闭列表 */
@@ -85,50 +85,57 @@ class A extends mapView{
                         item.parent = currentGrid;
                         item.grid = grid;
                         /* 将item压入打开列表 */
+                        grid.fillSearchScope = true;
                         this.openList.push( item );
                     }else{
                         let index = this.isListHave( item , this.openList );
                         /* 判断当前节点是否更近 */
                         if( g < this.openList[index].G ){
                             /* 如果更近则替换 */
-                            this.openList[index].parent = surroundGrid;
+                            this.openList[index].parent = currentGrid;
                             this.openList[index].G = g;
                             this.openList[index].F = g + this.openList[index].H;
-                            this.openList[index].grid = currentGrid;
+                            this.openList[index].grid = grid;
                         }
                     }
                 }
             }
             /* 如果开启列表空则退出 */
             if( this.openList.length === 0 ){
-                break;
+                // break;
             }
             /* 每次循环对打开列表排序把F值最小的格子放到一个位 方便取出 */
             this.openList.sort( (a,b) => {return a.F - b.F });
             /* 每次循环判断打开列表中是否存在结束点 */
             this.isSearchEndGrid = this.isListHave( endGrid , this.openList );
+            
+            if( !this.isSearchEndGrid === false ){
+                clearInterval( searchDarw );
 
-        }while( this.isSearchEndGrid === false );
+                /* 如果找到终点 就从终点开始延parent向上依次遍历直到开始点 */
+                let flag;
+                let currentGrid = this.openList[ this.isSearchEndGrid ];
+                let drawPathTimer = setInterval( () => {
 
-        /* 如果找到终点 就从终点开始延parent向上依次遍历直到开始点 */
-        if( this.isSearchEndGrid !== false ){
-            let flag;
-            let currentGrid = this.openList[ this.isSearchEndGrid ];
-            do{
-                //把路径节点添加到集合当中
-                this.resultPath.unshift({
-                    indexX: currentGrid.indexX,
-                    indexY: currentGrid.indexY
-                });
+                    this.resultPath.unshift({
+                        indexX: currentGrid.indexX,
+                        indexY: currentGrid.indexY
+                    });
 
-                currentGrid.grid.fillColor = true;  
-                
-                currentGrid = currentGrid.parent;
-                
-                flag = currentGrid.indexX !== startGrid.indexX || currentGrid.indexY !== startGrid.indexY;
-                
-            }while ( flag );
-        }
+                    currentGrid.grid.fillColor = true;  
+                    currentGrid = currentGrid.parent;
+
+                    flag = currentGrid.indexX !== startGrid.indexX || currentGrid.indexY !== startGrid.indexY;
+                    
+                    if( flag === false ){
+                        clearInterval( drawPathTimer );
+                    }
+
+                } , 50);
+            };
+
+        } , 50)
+        
     }
 }
 
