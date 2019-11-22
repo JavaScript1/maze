@@ -138,7 +138,7 @@ class mapView {
                     };
                     this._flag = bool;
                     if( bool === true ){
-                        this.setAttribute( 'fill' , '#808080' );
+                        this.setAttribute( 'fill' , '#000' );
                     }else{
                         this.setAttribute( 'fill' , '#fff' );
                     }
@@ -153,6 +153,16 @@ class mapView {
                         this.setAttribute( 'fill' , '#98fb98' );
                     }else{
                         this.setAttribute( 'fill' , '#fff' );
+                    }
+                }
+            },
+            'fillCurrentGrid':{
+                set( bool ){
+                    if( this.startEnd === 'start' || this.startEnd === 'end' ){
+                        return
+                    }
+                    if( bool === true ){
+                        this.setAttribute( 'fill' , '#808080' );
                     }
                 }
             },
