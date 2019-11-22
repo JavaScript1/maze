@@ -162,7 +162,7 @@ class mapView {
                         return
                     }
                     if( bool === true ){
-                        this.setAttribute( 'fill' , '#e5e5e5' );
+                        this.setAttribute( 'fill' , '#2d78f4' );
                     }else{
                         this.setAttribute( 'fill' , '#fff' );
                     }
