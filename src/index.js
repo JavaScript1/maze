@@ -27,7 +27,7 @@ let AStarBtn = document.createElement('button');
 /* Dijkstra算法 */
 let DijkstraBtn = document.createElement('button');
     DijkstraBtn.style.marginLeft = '10px';
-    DijkstraBtn.innerHTML = 'Dijkstra(未完成)';
+    DijkstraBtn.innerHTML = 'Dijkstra';
     DijkstraBtn.addEventListener( 'click' , () => {
         new dijkstra().init();
     });
