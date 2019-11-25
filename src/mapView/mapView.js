@@ -28,6 +28,12 @@ class mapView {
     get getInstance(){
         return mapView.getInstance();
     }
+    get column(){
+        return this._mapData.length;
+    }
+    get line(){
+        return this._mapData[0].length;
+    }
     init(){
         this.createMap();
         this.createMapData();
@@ -124,7 +130,6 @@ class mapView {
     }
     /* 为格子元素绑定数据 */
     bindGridModel( grid ){
-        /* self 为动画作准备 现在没写呢 */
         let self = this;
         Object.defineProperties( grid , {
             'flag': {
@@ -138,7 +143,7 @@ class mapView {
                     };
                     this._flag = bool;
                     if( bool === true ){
-                        this.setAttribute( 'fill' , '#000' );
+                        this.setAttribute( 'fill' , '#666' );
                     }else{
                         this.setAttribute( 'fill' , '#fff' );
                     }
@@ -162,7 +167,7 @@ class mapView {
                         return
                     }
                     if( bool === true ){
-                        this.setAttribute( 'fill' , '#808080' );
+                        this.setAttribute( 'fill' , 'yellow' );
                     }
                 }
             },
@@ -243,12 +248,6 @@ class mapView {
         if( target.startEnd === 'start' || target.startEnd === 'end' ){
             return 
         }
-        // if( target.xx < 0 || target.xx > this._mapData[0].length - 1 ){
-        //     return 
-        // }
-        // if( target.yy < 0 || target.yy > this._mapData.length - 1 ){
-        //     return 
-        // }
         /* 同当前元素 不断替换起始点元素 并清空历史起始点元素的状态 */
         let type = this.startEndElement.startEnd;
         this.startEndElement.startEnd = false;
